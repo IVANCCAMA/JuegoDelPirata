@@ -18,10 +18,13 @@ public class Pirata {
     }
     
     public void mover(){
+        
     }
     public void busarTeroso(){
+        
     }
     public void actualizarMov(){
+        NumMovimientos++;
     }
     public boolean encontroTesoro(){
         return encontroTesoro;

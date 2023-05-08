@@ -8,14 +8,14 @@ import javax.swing.JPanel;
 
 public class Tablero extends JPanel{
     //Color colorFondo = Color.ORANGE;
-    int tamMax, tam, NumCasillas; // tamMaximo, tam Casillas, num Casillas
+    int tamMax, tamC, NumCasillas; // tamMaximo, tamC Casillas, num Casillas
     private Tesoro tesoro;
     private Pirata pirata;
     
     public Tablero(int cant){
         this.tamMax = 500; // tamanio de casillas
         this.NumCasillas = cant;
-        this.tam = tamMax/cant;
+        this.tamC = tamMax/cant; // tamanio de cada casilla
         
         tesoro = new Tesoro(0,0);
         pirata = new Pirata(0,0);
@@ -35,17 +35,17 @@ public class Tablero extends JPanel{
             for(int j = 0; j < NumCasillas; j++){
                 if (i == 0 || i == NumCasillas - 1 || j == 0 || j == NumCasillas - 1) { //AGUA
                     pintor.setColor(Color.BLUE);
-                    pintor.fillRect(i*tam, j*tam, tam-1, tam-1);
+                    pintor.fillRect(i*tamC, j*tamC, tamC-1, tamC-1);
                 }else{ //CASILLAS
                     pintor.setColor(Color.ORANGE);
-                    pintor.fillRect(i*tam, j*tam, tam-1, tam-1);
+                    pintor.fillRect(i*tamC, j*tamC, tamC-1, tamC-1);
                 }                
             }
         }
         // PUENTES
         pintor.setColor(Color.MAGENTA);
-        pintor.fillRect(0*tam, (NumCasillas-1)*tam, tam-1, tam-1);
-        pintor.fillRect((NumCasillas-1)*tam, 0*tam, tam-1, tam-1);
+        pintor.fillRect(0*tamC, (NumCasillas-1)*tamC, tamC-1, tamC-1);
+        pintor.fillRect((NumCasillas-1)*tamC, 0*tamC, tamC-1, tamC-1);
                 
     }
     private void colocarPirataYTesoro(Graphics pintor) {
@@ -63,9 +63,10 @@ public class Tablero extends JPanel{
         } while (tesoro.getX() == pirata.getX() && tesoro.getY() == pirata.getY());
         
         pintor.setColor(Color.BLACK);
-        pintor.fillRect(pirata.getX()*tam, pirata.getY()*tam, tam-1, tam-1);
+        pintor.fillRect(pirata.getX()*tamC, pirata.getY()*tamC, tamC-1, tamC-1);
+        
         pintor.setColor(Color.RED);
-        pintor.fillRect(tesoro.getX()*tam, tesoro.getY()*tam, tam-1, tam-1); 
+        pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1); 
     }
         
     /*private void generarAgua(Graphics pintor){
@@ -73,7 +74,7 @@ public class Tablero extends JPanel{
         pintor.setColor(Color.BLUE);
         for(int i = 0; i < NumCasillas; i++){
             for(int j = 0; j < NumCasillas; j++){
-                pintor.fillRect(i*tam, j*tam, tam-1, tam-1);
+                pintor.fillRect(i*tamC, j*tamC, tamC-1, tamC-1);
             }
         }
     }
@@ -86,7 +87,7 @@ public class Tablero extends JPanel{
                 esquina1 = (i == 0 && j == NumCasillas-1);
                 esquina2 = (i == NumCasillas-1 && j == 0);
                 if(esquina1 || esquina2){
-                    pintor.fillRect(i*tam, j*tam, tam-1, tam-1);
+                    pintor.fillRect(i*tamC, j*tamC, tamC-1, tamC-1);
                 }
             }
         }
@@ -98,7 +99,7 @@ public class Tablero extends JPanel{
             int x = (int)(Math.random()*limite)+1;
             int y = (int)(Math.random()*limite)+1;
             pirata = new Pirata(x,y);
-            pintor.fillRect(x*tam, y*tam, tam-1, tam-1);
+            pintor.fillRect(x*tamC, y*tamC, tamC-1, tamC-1);
         } while (pirata.getX() == tesoro.getX() && pirata.getY() == tesoro.getY());
     }
     private void colocarTesoro(Tesoro tesoro, Graphics pintor){
@@ -109,7 +110,7 @@ public class Tablero extends JPanel{
         tesoro.setY(x);
         
         pintor.setColor(Color.RED);
-        pintor.fillRect(x*tam, y*tam, tam-1, tam-1);
+        pintor.fillRect(x*tamC, y*tamC, tamC-1, tamC-1);
 
     }
     */

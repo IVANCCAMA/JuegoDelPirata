@@ -11,9 +11,6 @@ public class Tesoro {
         this.x = x;
         this.y = y;
     }
-    
-    public void generarTesoro(int pos){
-    }
 
     public void setX(int x) {
         this.x = x;
