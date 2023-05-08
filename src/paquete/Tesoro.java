@@ -5,12 +5,30 @@
 package paquete;
 
 public class Tesoro {
-    int [][] posActual;
+    int x,y;
     
-    public Tesoro(int pos){
-        //posActual = pos;
+    public Tesoro(int x, int y){
+        this.x = x;
+        this.y = y;
     }
     
     public void generarTesoro(int pos){
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    
 }

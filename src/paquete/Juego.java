@@ -2,24 +2,15 @@ package paquete;
 
 public class Juego extends javax.swing.JFrame {
     Tablero tablero;
-    Pirata pirata;
-    Tesoro tesoro;
     public Juego() {
         initComponents();
         this.setLocationRelativeTo(null);
-        // fix tamanio> generar tablero
+        // fix tamanio> generar parametro tablero
         int tamTablero = 5;
         tablero = new Tablero(tamTablero);
         this.add(tablero);
         // modificamos el tamanio del tablero
-        tablero.setBounds(10,10, 500, 500);
-        
-        // Generamos al pirata
-        pirata = new Pirata(tamTablero);
-        // Generamos el tesoro
-        tesoro = new Tesoro(tamTablero);
-        
-        
+        tablero.setBounds(10,10, 500, 500);      
     }
 
     /**
@@ -65,9 +56,10 @@ public class Juego extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         // fix> generar tablero
-        /*Tablero fondo = new Tablero(5);
+        int tamanio = (int)(Math.random()*10)+4;
+        Tablero fondo = new Tablero(10);
         this.add(fondo);
-        fondo.setBounds(10,10, 500, 500);*/
+        fondo.setBounds(10,10, 500, 500);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

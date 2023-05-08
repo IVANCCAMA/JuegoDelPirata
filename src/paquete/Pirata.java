@@ -6,12 +6,14 @@ package paquete;
 
 public class Pirata {
     String nombrePirata;
-    int [][] posActual;
+    int x,y;
     int NumMovimientos;
+    boolean encontroTesoro;
     
-    public Pirata(int pos){
+    public Pirata(int x, int y){
         nombrePirata = "Pata de Palo";
-        //posActual = 0;
+        this.x = x;
+        this.y = y;
         NumMovimientos = 0;
     }
     
@@ -21,4 +23,24 @@ public class Pirata {
     }
     public void actualizarMov(){
     }
+    public boolean encontroTesoro(){
+        return encontroTesoro;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    
 }
