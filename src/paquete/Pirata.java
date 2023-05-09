@@ -10,16 +10,14 @@ public class Pirata {
     int NumMovimientos;
     boolean encontroTesoro;
     
-    public Pirata(int x, int y){
-        nombrePirata = "Pata de Palo";
-        this.x = x;
-        this.y = y;
+    public Pirata(){
+        this.nombrePirata = "Pata de Palo";
+        this.x = 0;
+        this.y = 0;
         NumMovimientos = 0;
     }
     
-    public void mover(){
-        
-    }
+    
     public void busarTeroso(){
         
     }
