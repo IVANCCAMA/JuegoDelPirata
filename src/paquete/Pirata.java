@@ -15,6 +15,7 @@ public class Pirata {
         this.x = 0;
         this.y = 0;
         NumMovimientos = 0;
+        encontroTesoro = false;
     }
     
     
@@ -24,7 +25,11 @@ public class Pirata {
     public void actualizarMov(){
         NumMovimientos++;
     }
-    public boolean encontroTesoro(){
+    public void setEncontroTesoro(boolean encontro){
+        encontroTesoro = encontro;
+    }
+    
+    public boolean getEncontroTesoro(){
         return encontroTesoro;
     }
 

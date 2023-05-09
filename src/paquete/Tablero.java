@@ -11,12 +11,21 @@ public class Tablero extends JPanel{
     int tamMax, tamC, NumCasillas; // tamMaximo, tamC Casillas, num Casillas
     private Tesoro tesoro;
     private Pirata pirata;
-    Graphics pintor;
+    private Graphics pintor;
+    private boolean TesoroColocado;
+    private boolean PirataMovimiento;
+    private boolean ganoPartida;
+    private boolean perdioPartida;
     
     public Tablero(int cant){
         this.tamMax = 500; // tamanio de casillas
         this.NumCasillas = cant;
         this.tamC = tamMax/cant; // tamanio de cada casilla
+        
+        TesoroColocado = false;
+        PirataMovimiento = false;
+        ganoPartida = false;
+        perdioPartida = false;
         
         tesoro = new Tesoro();
         pirata = new Pirata();
@@ -24,14 +33,15 @@ public class Tablero extends JPanel{
   
     // Genera el tablero
     @Override
-    public void paint(Graphics pintor){
+    public void paintComponent(Graphics pintor){
         this.pintor = pintor;
-        super.paint(pintor);
+        super.paintComponent(this.pintor);
         generarTablero();
-        colocarPirataYTesoro();
+        colocarTesoro();
+        colocarPirata();
     }
     private void generarTablero(){
-        //super.paint(pintor);
+        super.paintComponent(pintor);
         //pintor.setColor(Color.ORANGE);
         for(int i = 0; i < NumCasillas; i++){
             for(int j = 0; j < NumCasillas; j++){
@@ -50,32 +60,56 @@ public class Tablero extends JPanel{
         pintor.fillRect((NumCasillas-1)*tamC, 0*tamC, tamC-1, tamC-1);
                 
     }
-    private void colocarPirataYTesoro() {
-        int limite = NumCasillas - 2; 
-        int xP, yP, xT, yT;
-        do {
-            xP = (int)(Math.random()*limite)+1;
-            yP = (int)(Math.random()*limite)+1;
-            pirata.setX(xP);
-            pirata.setY(yP);
+    private void colocarTesoro(){
+        pintor.setColor(Color.RED);
+        if(TesoroColocado == true){
+            pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1);
+        }else{
+            int limite = NumCasillas - 2; 
+            int xT, yT;
             xT = (int)(Math.random()*limite)+1;
             yT = (int)(Math.random()*limite)+1;
             tesoro.setX(xT);
             tesoro.setY(yT);
-        } while (tesoro.getX() == pirata.getX() && tesoro.getY() == pirata.getY());
-        // POS PIRATA
-        pintor.setColor(Color.BLACK);
-        pintor.fillRect(pirata.getX()*tamC, pirata.getY()*tamC, tamC-1, tamC-1);
-        // POS TESORO
-        pintor.setColor(Color.RED);
-        pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1); 
+            pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1); 
+            
+            TesoroColocado = true;
+        }
     }
-    public void moverPirata(){
+    
+    private void colocarPirata() {
+        pintor.setColor(Color.BLACK);
+        int limite = NumCasillas - 2; 
+        int xP, yP, xT, yT;
+        if(PirataMovimiento == true){
+           pintor.fillRect(pirata.getX()*tamC, pirata.getY()*tamC, tamC-1, tamC-1); 
+        }else{
+            do {
+            xP = (int)(Math.random()*limite)+1;
+            yP = (int)(Math.random()*limite)+1;
+            pirata.setX(xP);
+            pirata.setY(yP);
+            /*xT = (int)(Math.random()*limite)+1;
+            yT = (int)(Math.random()*limite)+1;
+            tesoro.setX(xT);
+            tesoro.setY(yT);*/
+            } while (tesoro.getX() == pirata.getX() && tesoro.getY() == pirata.getY());
+            // POS PIRATA
+            pintor.fillRect(pirata.getX()*tamC, pirata.getY()*tamC, tamC-1, tamC-1);
+            // POS TESORO
+            //pintor.setColor(Color.RED);
+            //pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1); 
+        }
+        
+        
+    }
+    
+    public void moverP(){
         int direccion = (int)(Math.random()*4)+1;
         int nuevoX = pirata.getX();
         int nuevoY = pirata.getY();
-        int antesX = pirata.getX();
-        int antesY = pirata.getY();
+        System.out.println("Pos Actual Pirata: "+ pirata.getX() + "," + pirata.getY());
+        
         switch (direccion) {
             case 1: // Norte
                 nuevoY--;
@@ -95,32 +129,56 @@ public class Tablero extends JPanel{
         }
         // Verificar si el movimiento es válido
         if (esValido(nuevoX, nuevoY)) {
-            // Actualizar la posición del pirata
             pirata.setX(nuevoX);
             pirata.setY(nuevoY);
-            actualizarPosPirata(antesX, antesY, pirata.getX(), pirata.getY());
-
             // Verificar si se ha encontrado el tesoro
             if (esTesoro(pirata.getX(), pirata.getY())) {
-                System.out.println("¡Encontraste el tesoro!");
+                System.out.println("-------------¡ENCONTRASTE EL TESORO!-----------");
+                // TERMINAR PARTIDA XD ARREGLAR
+                //JOptionPane.showMessageDialog(this, "Encontaste el tesoro");
+                //nuevoJuego();
             }
-        } else {
-            System.out.println("¡Cuidado! Te caerás al agua");
+        }else{
+            pirata.setX(nuevoX);
+            pirata.setY(nuevoY);
+            System.out.println("TE AHOGASTEEE!!!!!!!!");
+            perdioPartida = true;
+            // TERMINAR PARTIDA XD
+            //JOptionPane.showMessageDialog(this, "Te ahogaste!");
         }
         
-    }
-    public boolean esValido(int nuevoX, int nuevoY){
-        return true;
+        PirataMovimiento = true;
+        repaint();
+        System.out.println("Pos Despues Pirata: "+ pirata.getX() + "," + pirata.getY());
     }
     
-    public boolean esTesoro(int x, int y){
-        return false;
+    public boolean esValido(int nuevoX, int nuevoY){
+        boolean esValido;
+        if(nuevoX > 0 && nuevoY > 0 && nuevoX < NumCasillas-1 && nuevoY < NumCasillas-1){
+            esValido = true;
+        }else{
+            esValido = false;
+        }
+        return esValido;
     }
-    public void actualizarPosPirata(int antesX, int antesY, int nuevoX, int nuevoY){
-        pintor.setColor(Color.BLUE);
-        pintor.fillRect(antesX*tamC, antesY*tamC, tamC-1, tamC-1);
-        
-        pintor.setColor(Color.BLACK);
-        pintor.fillRect(nuevoX*tamC, nuevoY*tamC, tamC-1, tamC-1);
+    
+    public boolean esTesoro(int xP, int yP){
+        if(xP == tesoro.getX() && yP == tesoro.getY()){
+            pirata.setEncontroTesoro(true);
+            ganoPartida = true;
+        }else{
+            pirata.setEncontroTesoro(false);
+            ganoPartida = false;
+        }
+        return pirata.getEncontroTesoro();
     }
+    
+    public boolean getGanoPartida(){
+        return ganoPartida;
+    }
+    
+    public boolean getPerdioPartida(){
+        return perdioPartida;
+    }
+    
 }

@@ -1,10 +1,14 @@
 package paquete;
 
+import javax.swing.JOptionPane;
+
 public class Juego extends javax.swing.JFrame {
     Tablero tablero;
+    PanelPirata panelPirata;
     public Juego() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
     }
 
     /**
@@ -63,16 +67,34 @@ public class Juego extends javax.swing.JFrame {
         jugar();
     }//GEN-LAST:event_jButton1ActionPerformed
     
-    public void jugar(){        
-        tablero = new Tablero((int)(Math.random()*10)+4);
+    public void jugar(){   
+        int N = (int)(Math.random()*10)+4;
+        
+        tablero = new Tablero(5);
         this.add(tablero);
-        // modificamos el tamanio del tablero
         tablero.setBounds(10,10, 500, 500);
+    }
+    
+    private void estadoPartida(){
+        if(tablero.getGanoPartida() == true){
+            JOptionPane.showMessageDialog(this, "Encontaste el tesoro");
+        }else{
+            JOptionPane.showMessageDialog(this, "Te ahogaste!");
+        }
     }
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        tablero.moverPirata();
+        
+        if(tablero.getGanoPartida() == true){
+            JOptionPane.showMessageDialog(this, "Encontaste el tesoro");
+        }else if(tablero.getPerdioPartida() == true){
+                JOptionPane.showMessageDialog(this, "Te ahogaste!");
+        } else {
+            tablero.moverP();
+        }
+            
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
