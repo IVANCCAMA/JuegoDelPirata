@@ -3,6 +3,7 @@ package paquete;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -16,6 +17,7 @@ public class Tablero extends JPanel{
     private boolean PirataMovimiento;
     private boolean ganoPartida;
     private boolean perdioPartida;
+    private int maxMovimientos;
     
     public Tablero(int cant){
         this.tamMax = 500; // tamanio de casillas
@@ -26,7 +28,8 @@ public class Tablero extends JPanel{
         PirataMovimiento = false;
         ganoPartida = false;
         perdioPartida = false;
-        
+        maxMovimientos = 50;
+    
         tesoro = new Tesoro();
         pirata = new Pirata();
     }
@@ -89,22 +92,13 @@ public class Tablero extends JPanel{
             yP = (int)(Math.random()*limite)+1;
             pirata.setX(xP);
             pirata.setY(yP);
-            /*xT = (int)(Math.random()*limite)+1;
-            yT = (int)(Math.random()*limite)+1;
-            tesoro.setX(xT);
-            tesoro.setY(yT);*/
             } while (tesoro.getX() == pirata.getX() && tesoro.getY() == pirata.getY());
             // POS PIRATA
             pintor.fillRect(pirata.getX()*tamC, pirata.getY()*tamC, tamC-1, tamC-1);
-            // POS TESORO
-            //pintor.setColor(Color.RED);
-            //pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1); 
         }
-        
-        
     }
     
-    public void moverP(){
+    public void moverPirata(){
         int direccion = (int)(Math.random()*4)+1;
         int nuevoX = pirata.getX();
         int nuevoY = pirata.getY();
@@ -128,9 +122,11 @@ public class Tablero extends JPanel{
                 return;
         }
         // Verificar si el movimiento es válido
-        if (esValido(nuevoX, nuevoY)) {
+        if(pirata.getMovimientos() < maxMovimientos){
+            if (esValido(nuevoX, nuevoY)) {
             pirata.setX(nuevoX);
             pirata.setY(nuevoY);
+            pirata.actualizarMov();
             // Verificar si se ha encontrado el tesoro
             if (esTesoro(pirata.getX(), pirata.getY())) {
                 System.out.println("-------------¡ENCONTRASTE EL TESORO!-----------");
@@ -138,18 +134,23 @@ public class Tablero extends JPanel{
                 //JOptionPane.showMessageDialog(this, "Encontaste el tesoro");
                 //nuevoJuego();
             }
+            }else{
+                pirata.setX(nuevoX);
+                pirata.setY(nuevoY);
+                pirata.actualizarMov();
+                //System.out.println("TE AHOGASTEEE!!!!!!!!");
+                perdioPartida = true;
+                // TERMINAR PARTIDA XD
+                //JOptionPane.showMessageDialog(this, "Te ahogaste!");
+            }
+
+            PirataMovimiento = true;
+            repaint();
+            System.out.println("Pos Despues Pirata: "+ pirata.getX() + "," + pirata.getY());
         }else{
-            pirata.setX(nuevoX);
-            pirata.setY(nuevoY);
-            System.out.println("TE AHOGASTEEE!!!!!!!!");
             perdioPartida = true;
-            // TERMINAR PARTIDA XD
-            //JOptionPane.showMessageDialog(this, "Te ahogaste!");
+            JOptionPane.showMessageDialog(this, "No tienes mas movimientos, Pediste!, Inicia un nuevo Juego");
         }
-        
-        PirataMovimiento = true;
-        repaint();
-        System.out.println("Pos Despues Pirata: "+ pirata.getX() + "," + pirata.getY());
     }
     
     public boolean esValido(int nuevoX, int nuevoY){
@@ -181,4 +182,7 @@ public class Tablero extends JPanel{
         return perdioPartida;
     }
     
+    public int getMovimientos(){
+        return pirata.getMovimientos();
+    }
 }

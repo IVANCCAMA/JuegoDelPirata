@@ -25,6 +25,9 @@ public class Pirata {
     public void actualizarMov(){
         NumMovimientos++;
     }
+    public int getMovimientos(){
+        return NumMovimientos;
+    }
     public void setEncontroTesoro(boolean encontro){
         encontroTesoro = encontro;
     }
