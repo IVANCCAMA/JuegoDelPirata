@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 public class Juego extends javax.swing.JFrame {
     Tablero tablero;
     PanelPirata panelPirata;
+    boolean seInicio;
     public Juego() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -49,7 +50,6 @@ public class Juego extends javax.swing.JFrame {
         });
 
         jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,27 +65,27 @@ public class Juego extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(577, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
+                .addGap(118, 118, 118)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -108,12 +108,12 @@ public class Juego extends javax.swing.JFrame {
     
     public void jugar(){   
         int N = (int)(Math.random()*10)+4;
-        
+        seInicio = true;
         tablero = new Tablero(10);
         this.add(tablero);
         tablero.setBounds(10,10, 500, 500);
         
-        jTextField1.setText(String.valueOf(tablero.getMovimientos()));
+        //jTextField1.setText(String.valueOf(tablero.getMovimientos()));
     }
     
     private void estadoPartida(){
@@ -125,16 +125,17 @@ public class Juego extends javax.swing.JFrame {
     }
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        if(tablero.getGanoPartida() == true){
+        // avanzar
+        if(seInicio == true){
+            if(tablero.getGanoPartida() == true){
             JOptionPane.showMessageDialog(this, "Encontaste el tesoro!, Inicia un nuevo Juego");
-        }else if(tablero.getPerdioPartida() == true){
-            JOptionPane.showMessageDialog(this, "Te ahogaste!, Inicia un nuevo Juego");
-        }else{
+            }else if(tablero.getPerdioPartida() == true){
+                JOptionPane.showMessageDialog(this, "Te ahogaste!, Inicia un nuevo Juego");
+            }else{
             tablero.moverPirata();
-            jTextField1.setText(String.valueOf(tablero.getMovimientos()));
+                jTextField1.setText(String.valueOf(tablero.getMovimientos()));
+            }
         }
-            
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -142,6 +143,7 @@ public class Juego extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+   
     /**
      * @param args the command line arguments
      */

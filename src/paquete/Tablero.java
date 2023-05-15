@@ -28,7 +28,7 @@ public class Tablero extends JPanel{
         PirataMovimiento = false;
         ganoPartida = false;
         perdioPartida = false;
-        maxMovimientos = 50;
+        maxMovimientos = 500;
     
         tesoro = new Tesoro();
         pirata = new Pirata();
@@ -135,13 +135,16 @@ public class Tablero extends JPanel{
                 //nuevoJuego();
             }
             }else{
-                pirata.setX(nuevoX);
+                if(esValidoT(nuevoX, nuevoY)){
+                    pirata.setX(nuevoX);
                 pirata.setY(nuevoY);
                 pirata.actualizarMov();
                 //System.out.println("TE AHOGASTEEE!!!!!!!!");
                 perdioPartida = true;
                 // TERMINAR PARTIDA XD
                 //JOptionPane.showMessageDialog(this, "Te ahogaste!");
+                }
+                
             }
 
             PirataMovimiento = true;
@@ -156,6 +159,16 @@ public class Tablero extends JPanel{
     public boolean esValido(int nuevoX, int nuevoY){
         boolean esValido;
         if(nuevoX > 0 && nuevoY > 0 && nuevoX < NumCasillas-1 && nuevoY < NumCasillas-1){
+            esValido = true;
+        }else{
+            esValido = false;
+        }
+        return esValido;
+    }
+    
+    public boolean esValidoT(int nuevoX, int nuevoY){
+        boolean esValido;
+        if(nuevoX >= 0 && nuevoY >= 0 && nuevoX < NumCasillas && nuevoY < NumCasillas){
             esValido = true;
         }else{
             esValido = false;
