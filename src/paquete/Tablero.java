@@ -3,23 +3,31 @@ package paquete;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
 public class Tablero extends JPanel{
+    
+    Image imagenTesoro;
+    Image imagenPirata;
+            
     //Color colorFondo = Color.ORANGE;
     int tamMax, tamC, NumCasillas; // tamMaximo, tamC Casillas, num Casillas
-    private Tesoro tesoro;
-    private Pirata pirata;
+    private final Tesoro tesoro;
+    private final Pirata pirata;
     private Graphics pintor;
     private boolean TesoroColocado;
     private boolean PirataMovimiento;
     private boolean ganoPartida;
     private boolean perdioPartida;
-    private int maxMovimientos;
+    private final int maxMovimientos;
     
-    public Tablero(int cant){
+    public Tablero(int cant) throws IOException{
         this.tamMax = 500; // tamanio de casillas
         this.NumCasillas = cant;
         this.tamC = tamMax/cant; // tamanio de cada casilla
@@ -32,6 +40,10 @@ public class Tablero extends JPanel{
     
         tesoro = new Tesoro();
         pirata = new Pirata();
+        
+        imagenTesoro = ImageIO.read(new File("C:\\Users\\DELL\\Desktop\\JuegoDelPirata\\src\\Imagenes\\tesoro.png"));
+        imagenPirata = ImageIO.read(new File("C:\\Users\\DELL\\Desktop\\JuegoDelPirata\\src\\Imagenes\\pirata.png"));
+
     }
   
     // Genera el tablero
@@ -64,9 +76,13 @@ public class Tablero extends JPanel{
                 
     }
     private void colocarTesoro(){
+        
         pintor.setColor(Color.RED);
         if(TesoroColocado == true){
-            pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1);
+            //pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1);
+            //pintor.drawImage(imagenTesoro, tesoro.getX()*tamC, tesoro.getY()*tamC, this);
+            pintor.drawImage(imagenTesoro, tesoro.getX()*tamC, tesoro.getY()*tamC, tamC, tamC,this);
+
         }else{
             int limite = NumCasillas - 2; 
             int xT, yT;
@@ -74,18 +90,23 @@ public class Tablero extends JPanel{
             yT = (int)(Math.random()*limite)+1;
             tesoro.setX(xT);
             tesoro.setY(yT);
-            pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1); 
+            //pintor.fillRect(tesoro.getX()*tamC, tesoro.getY()*tamC, tamC-1, tamC-1); 
+            //icono.paintIcon(this, g2d, tesoro.getX()*tamC, tesoro.getY()*tamC);
+            pintor.drawImage(imagenTesoro, tesoro.getX()*tamC, tesoro.getY()*tamC, tamC, tamC,this);
             
             TesoroColocado = true;
         }
     }
     
     private void colocarPirata() {
+        
         pintor.setColor(Color.BLACK);
         int limite = NumCasillas - 2; 
         int xP, yP, xT, yT;
         if(PirataMovimiento == true){
-           pintor.fillRect(pirata.getX()*tamC, pirata.getY()*tamC, tamC-1, tamC-1); 
+           //pintor.fillRect(pirata.getX()*tamC, pirata.getY()*tamC, tamC-1, tamC-1); 
+           pintor.drawImage(imagenPirata, pirata.getX()*tamC, pirata.getY()*tamC, tamC, tamC,this);
+
         }else{
             do {
             xP = (int)(Math.random()*limite)+1;
@@ -94,12 +115,16 @@ public class Tablero extends JPanel{
             pirata.setY(yP);
             } while (tesoro.getX() == pirata.getX() && tesoro.getY() == pirata.getY());
             // POS PIRATA
-            pintor.fillRect(pirata.getX()*tamC, pirata.getY()*tamC, tamC-1, tamC-1);
+            pintor.drawImage(imagenPirata, pirata.getX()*tamC, pirata.getY()*tamC, tamC, tamC,this);
+
         }
     }
     
     public void moverPirata(){
         int direccion = (int)(Math.random()*4)+1;
+        direccion = (int)(Math.random()*4)+1;
+        direccion = (int)(Math.random()*4)+1;
+        direccion = (int)(Math.random()*4)+1;
         int nuevoX = pirata.getX();
         int nuevoY = pirata.getY();
         System.out.println("Pos Actual Pirata: "+ pirata.getX() + "," + pirata.getY());
@@ -132,17 +157,17 @@ public class Tablero extends JPanel{
                 System.out.println("-------------¡ENCONTRASTE EL TESORO!-----------");
                 // TERMINAR PARTIDA XD ARREGLAR
                 //JOptionPane.showMessageDialog(this, "Encontaste el tesoro");
-                //nuevoJuego();
+                
             }
             }else{
                 if(esValidoT(nuevoX, nuevoY)){
                     pirata.setX(nuevoX);
-                pirata.setY(nuevoY);
-                pirata.actualizarMov();
-                //System.out.println("TE AHOGASTEEE!!!!!!!!");
-                perdioPartida = true;
-                // TERMINAR PARTIDA XD
-                //JOptionPane.showMessageDialog(this, "Te ahogaste!");
+                    pirata.setY(nuevoY);
+                    pirata.actualizarMov();
+                    //System.out.println("TE AHOGASTEEE!!!!!!!!");
+                    perdioPartida = true;
+                    // TERMINAR PARTIDA XD
+                    //JOptionPane.showMessageDialog(this, "Te ahogaste!");
                 }
                 
             }
@@ -185,7 +210,7 @@ public class Tablero extends JPanel{
             ganoPartida = false;
         }
         return pirata.getEncontroTesoro();
-    }
+    }   
     
     public boolean getGanoPartida(){
         return ganoPartida;

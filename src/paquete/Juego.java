@@ -1,5 +1,8 @@
 package paquete;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Juego extends javax.swing.JFrame {
@@ -50,6 +53,7 @@ public class Juego extends javax.swing.JFrame {
         });
 
         jTextField1.setEditable(false);
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,21 +107,25 @@ public class Juego extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jugar();
+        try {
+            jugar();
+        } catch (IOException ex) {
+            Logger.getLogger(Juego.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     
-    public void jugar(){   
+    public void jugar() throws IOException{   
         int N = (int)(Math.random()*10)+4;
         seInicio = true;
-        tablero = new Tablero(10);
+        tablero = new Tablero(N);
         this.add(tablero);
         tablero.setBounds(10,10, 500, 500);
         
-        //jTextField1.setText(String.valueOf(tablero.getMovimientos()));
+        jTextField1.setText(String.valueOf(tablero.getMovimientos()));
     }
     
     private void estadoPartida(){
-        if(tablero.getGanoPartida() == true){
+        if(tablero.getGanoPartida()){
             JOptionPane.showMessageDialog(this, "Encontaste el tesoro");
         }else{
             JOptionPane.showMessageDialog(this, "Te ahogaste!");
