@@ -36,7 +36,7 @@ public class Tablero extends JPanel{
         PirataMovimiento = false;
         ganoPartida = false;
         perdioPartida = false;
-        maxMovimientos = 500;
+        maxMovimientos = 50;
     
         tesoro = new Tesoro();
         pirata = new Pirata();
