@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Juego extends javax.swing.JFrame {
     Tablero tablero;
-    PanelPirata panelPirata;
+    
     boolean seInicio;
     public Juego() {
         initComponents();

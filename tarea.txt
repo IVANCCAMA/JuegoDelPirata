@@ -1,0 +1,30 @@
+arregalar:	
+- cuando llega a 50 movimientos solo deve salir que ya no tiene mas movimientos	
+		- error: muestra que se ahogo!
+
+- mostar que se ahogo una vez que entra al agua
+
+
+REFACTORIZAR:
+- extraer metodos
+	- generarTablero()  [Mauri]
+		- puentes, agua, casillas
+
+	// Verificar si el movimiento es válido
+	- esValido() y esValidoT(): En uno solo metodo [Ivan]
+		 verificar --> moverPirata()*	
+	- generarPosicionT(Teroso tesoro) [Celsius]
+	- generarPosicionP(Pirata pirata) [Celsius]
+	- avanzarPirata(): genera y eligue [Ivan]
+
+
+- mover metodos de una a otra clase 
+	- generarPosicionT(Teroso tesoro) --> clase Tersoro [Mauri]
+	- generarPosicionP(Pirata pirata) --> clase Pirata [Mauri]
+	- avanzarPirata() --> clase Pirata [Mauri]
+
+- cambiar nombres a variables (Al final)
+
+- introducir querys para eliminar variables temporales (pg 26) (Investigar)
+
+- DOCUMENTACION: [Emy y Dani]
